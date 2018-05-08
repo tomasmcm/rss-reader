@@ -1,0 +1,12 @@
+{
+  "name": "rss-reader",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "scripts": {
+    "start": "budo rss.js --live"
+  },
+  "dependencies": {
+    "budo": "^11.2.0"
+  }
+}
