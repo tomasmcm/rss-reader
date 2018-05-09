@@ -47,17 +47,13 @@ function getFeed(feedName, feedUrl){
     var itemSource = $('<p class="feed-source">' + feedName + '</p>')
     articlesElement.append(titleBar)
 
-    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up">UP</div><div class="feed-bar__item feed-bar__down">DOWN</div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">CLOSE</div></div>')
+    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><span>⌃</span></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><span class="flip-v">⌃</span></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
 
     $.each(feedItems, function( index ) {
       var item = feedItems[index]
-      var itemElement = $('<div class="feed-item"></div>')
+      var itemElement = $('<div class="feed-item" onclick="openArticle()"></div>')
       var itemLink = $('<p class="feed-link" href="' + item.link + '">' + item.title +'</p>')
       
-      itemElement.click(function(e){
-        e.preventDefault()
-        e.target.lastChild.classList.toggle("u-hidden");
-      })
       var itemContent
       if(typeof item.encoded != "undefined"){
         itemContent = $('<div class="feed-content u-hidden"><h1 class="feed-content__title">' + item.title + '</h1>' + item.encoded + '</div>')
@@ -77,4 +73,21 @@ function getFeed(feedName, feedUrl){
 window.closeArticle = function(){
   event.stopPropagation()
   event.target.parentElement.parentElement.classList.add("u-hidden");
+}
+
+window.openArticle = function(){
+  event.preventDefault()
+  event.target.lastChild.classList.toggle("u-hidden");
+}
+
+window.scrollUp = function(){
+  event.preventDefault()
+  event.stopPropagation();
+  window.scrollBy(0, - window.innerHeight * 0.6);
+}
+
+window.scrollDown = function(){
+  event.preventDefault()
+  event.stopPropagation();
+  window.scrollBy(0, window.innerHeight * 0.6);
 }
