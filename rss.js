@@ -47,7 +47,7 @@ function getFeed(feedName, feedUrl){
     var itemSource = $('<p class="feed-source">' + feedName + '</p>')
     articlesElement.append(titleBar)
 
-    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="doNothing()"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="doNothing()"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></svg></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
+    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="clickParent()"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="clickParent()"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></svg></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
 
     $.each(feedItems, function( index ) {
       var item = feedItems[index]
@@ -56,11 +56,11 @@ function getFeed(feedName, feedUrl){
       
       var itemContent
       if(typeof item.encoded != "undefined"){
-        itemContent = $('<div class="feed-content u-hidden"><h1 class="feed-content__title">' + item.title + '</h1>' + item.encoded + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.encoded + '</div>')
       } else if(typeof item.description == "undefined"){
-        itemContent = $('<div class="feed-content u-hidden"><h1 class="feed-content__title">' + item.title + '</h1>' + item.content.content + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.content.content + '</div>')
       } else {
-        itemContent = $('<div class="feed-content u-hidden"><h1 class="feed-content__title">' + item.title + '</h1>' + item.description + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.description + '</div>')
       }
       itemContent.append(articleBar.clone())
       
@@ -92,7 +92,7 @@ window.scrollDown = function(){
   event.target.parentElement.parentElement.scrollTop += window.innerHeight * 0.8
 }
 
-window.doNothing = function(){
+window.clickParent = function(){
   event.preventDefault()
   event.stopPropagation()
   try {
@@ -101,4 +101,7 @@ window.doNothing = function(){
     event.target.parentElement.parentElement.click()
   }
   
+}
+window.doNothing = function(){
+  event.stopPropagation()
 }
