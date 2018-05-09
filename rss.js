@@ -47,7 +47,7 @@ function getFeed(feedName, feedUrl){
     var itemSource = $('<p class="feed-source">' + feedName + '</p>')
     articlesElement.append(titleBar)
 
-    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></svg></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
+    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="doNothing()"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="doNothing()"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></svg></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
 
     $.each(feedItems, function( index ) {
       var item = feedItems[index]
@@ -82,12 +82,23 @@ window.openArticle = function(){
 
 window.scrollUp = function(){
   event.preventDefault()
-  event.stopPropagation();
-  event.target.parentElement.parentElement.scrollTop -= window.innerHeight * 0.6
+  event.stopPropagation()
+  event.target.parentElement.parentElement.scrollTop -= window.innerHeight * 0.8
 }
 
 window.scrollDown = function(){
   event.preventDefault()
-  event.stopPropagation();
-  event.target.parentElement.parentElement.scrollTop += window.innerHeight * 0.6
+  event.stopPropagation()
+  event.target.parentElement.parentElement.scrollTop += window.innerHeight * 0.8
+}
+
+window.doNothing = function(){
+  event.preventDefault()
+  event.stopPropagation()
+  try {
+    event.target.parentElement.click()
+  } catch (error) {
+    event.target.parentElement.parentElement.click()
+  }
+  
 }
