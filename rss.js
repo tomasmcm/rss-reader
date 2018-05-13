@@ -57,7 +57,10 @@ function getFeed(feedName, feedUrl){
     $.each(feedItems, function( index ) {
       var item = feedItems[index]
       var itemElement = $('<div class="feed-item" onclick="openArticle()"></div>')
-      var itemLink = $('<p class="feed-link" href="' + item.link + '">' + item.title +'</p>')
+      var date = item.pubDate || item.published || item.date;
+      date = new Date(date)
+      date = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year:'numeric' }) + " " + date.toLocaleTimeString('en-GB', {hour: 'numeric', minute: 'numeric'})
+      var itemLink = $('<p class="feed-link" href="' + item.link + '">' + item.title +'</p><small>' + date + '</small>')
       var itemImg = $('<img src="" class="feed-thumb">')
       
       var itemContent

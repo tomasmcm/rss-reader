@@ -71,10 +71,14 @@ body {
   height: 92px;
 }
 .feed-item {
-  padding: 0 10px;
+  padding: 0 20px;
   border-bottom: 4px solid lightgray;
   font-size: 1.2em;
   height: 108px;
+  overflow: hidden;
+}
+small {
+  opacity: .5;
 }
 .feed-link {
   color: #111;
@@ -83,7 +87,7 @@ body {
   line-height: 1.2em;
   font-size: 1.2em;
   pointer-events: none;
-  padding: 10px 20px;
+  padding: 10px 0;
 }
 .feed-source {
   pointer-events: none;
