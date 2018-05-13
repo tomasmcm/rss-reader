@@ -17,11 +17,11 @@ var articlesElement = $(".articles");
 // })
 var currentFeed = 0, feedName, feedUrl
 
-currentFeed = parseInt(window.location.search.substr(1)) || 0
+currentFeed = parseInt(window.location.hash.substr(1)) || 0
 
 function init(){
   articlesElement.html("")
-  history.pushState(null, null, '?'+currentFeed)
+  window.location.hash = currentFeed
   feedName = Object.keys(feedsLibrary)[currentFeed]
   feedUrl = feedsLibrary[feedName]
   getFeed(feedName, feedUrl)
