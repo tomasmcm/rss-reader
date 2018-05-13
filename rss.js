@@ -5,7 +5,9 @@ var feedsLibrary = {
   "Hackaday": "http://www.hackaday.com/rss.xml",
   "The Verge": "http://www.theverge.com/rss/index.xml",
   "9to5Mac": "http://9to5mac.com/feed/",
-  "MacRumors": "http://www.macrumors.com/macrumors.xml"
+  "MacRumors": "http://www.macrumors.com/macrumors.xml",
+  "GSM Arena": "https://www.gsmarena.com/rss-news-reviews.php3",
+  "A List Apart": "http://www.alistapart.com/rss.xml"
 }
 
 var articlesElement = $(".articles");
@@ -15,7 +17,11 @@ var articlesElement = $(".articles");
 // })
 var currentFeed = 0, feedName, feedUrl
 
+currentFeed = parseInt(window.location.search.substr(1)) || 0
+
 function init(){
+  articlesElement.html("")
+  history.pushState(null, null, '?'+currentFeed)
   feedName = Object.keys(feedsLibrary)[currentFeed]
   feedUrl = feedsLibrary[feedName]
   getFeed(feedName, feedUrl)
@@ -23,13 +29,12 @@ function init(){
 init()
 
 window.previousFeed = function(e){
-  currentFeed = (currentFeed - 1) % Object.keys(feedsLibrary).length
-  articlesElement.html("")
+  currentFeed = (currentFeed - 1)
+  if (currentFeed < 0) currentFeed = Object.keys(feedsLibrary).length-1
   init()
 }
 window.nextFeed = function(e){
   currentFeed = (currentFeed + 1) % Object.keys(feedsLibrary).length
-  articlesElement.html("")
   init()
 }
 
@@ -53,14 +58,15 @@ function getFeed(feedName, feedUrl){
       var item = feedItems[index]
       var itemElement = $('<div class="feed-item" onclick="openArticle()"></div>')
       var itemLink = $('<p class="feed-link" href="' + item.link + '">' + item.title +'</p>')
+      var itemImg = $('<img src="" class="feed-thumb">')
       
       var itemContent
       if(typeof item.encoded != "undefined"){
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.encoded + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.encoded + '</div>')
       } else if(typeof item.description == "undefined"){
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.content.content + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.content.content + '</div>')
       } else {
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1>' + item.description + '</div>')
+        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.description + '</div>')
       }
       itemContent.append(articleBar.clone())
       

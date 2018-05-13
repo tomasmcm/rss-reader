@@ -80,8 +80,8 @@ body {
   color: #111;
   text-decoration: none;
   cursor: pointer;
-  font-weight: bold;
   line-height: 1.2em;
+  font-size: 1.2em;
   pointer-events: none;
   padding: 10px 20px;
 }
