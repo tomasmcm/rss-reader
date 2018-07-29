@@ -7,7 +7,7 @@ var feedsLibrary = {
   "9to5Mac": "http://9to5mac.com/feed/",
   "MacRumors": "http://www.macrumors.com/macrumors.xml",
   "GSM Arena": "https://www.gsmarena.com/rss-news-reviews.php3",
-  "A List Apart": "http://www.alistapart.com/rss.xml"
+  "A List Apart": "https://alistapart.com/main/feed"
 }
 
 var articlesElement = $(".articles");
