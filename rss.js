@@ -39,7 +39,7 @@ window.nextFeed = function(e){
 }
 
 function getFeed(feedName, feedUrl){
-  var baseUrl = "http://query.yahooapis.com/v1/public/yql?q="
+  var baseUrl = "https://query.yahooapis.com/v1/public/yql?q="
   var queryString = encodeURI("SELECT * FROM feed WHERE url='" + feedUrl + "' LIMIT 10")
   var format = "&format=json"
   
