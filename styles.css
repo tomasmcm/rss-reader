@@ -58,27 +58,36 @@ body, html{
 }
 
 body {
-  font-family: "Bookerly", Helvetica, Arial, sans-serif;
+  font-family: "Amazon Ember", Helvetica, Arial, sans-serif;
   color: #111;
 }
 .articles {
   width: 100%;
 }
 .feed-title {
+  letter-spacing: 40px;
   font-size: 2em;
   padding: 20px 20px;
-  border-bottom: 4px solid lightgray;
+  border-bottom: 4px solid lightgrey;
   height: 92px;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: -5px 5px 0 lightgrey;
 }
 .feed-item {
-  padding: 0 20px;
-  border-bottom: 4px solid lightgray;
-  font-size: 1.2em;
-  height: 108px;
+  border-bottom: 4px solid lightgrey;
   overflow: hidden;
+  height: 108px;
 }
-small {
+.feed-label {
+  padding: 10px 0;
+  margin: 0 20px;
+  font-size: 1.2em;
+  height: 104px;
+}
+.feed-date {
   opacity: .5;
+  font-family: "Bookerly", Helvetica, Arial, sans-serif;
 }
 .feed-link {
   color: #111;
@@ -87,7 +96,7 @@ small {
   line-height: 1.2em;
   font-size: 1.2em;
   pointer-events: none;
-  padding: 10px 0;
+  padding-bottom: 0.3em;
 }
 .feed-source {
   pointer-events: none;
@@ -98,7 +107,7 @@ small {
   right: 0px;
   top: 0px;
   background: white;
-  font-size: 1.3em;
+  font-size: 1.5em;
   line-height: 1.6em;
   padding: 50px;
   padding-bottom: 110px;
@@ -109,6 +118,12 @@ small {
 }
 .feed-content p {
   padding-bottom: 40px;
+}
+.feed-content img{
+  width: 80% !important;
+  margin: 20px 10% !important;
+  display: block;
+  height: auto !important;
 }
 .feed-content__title {
   font-size: 1.1em;
@@ -133,6 +148,18 @@ small {
   display: inline-block;
   height: 100px;
   padding: 20px 0;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50px;
+}
+.feed-bar__up {
+  background-image: url("up.png");
+}
+.feed-bar__down {
+  background-image: url("down.png");
+}
+.feed-bar__close {
+  background-image: url("close.png");
 }
 .feed-bar__item:last-child{
   border-right: none;
@@ -169,12 +196,4 @@ small {
 
 .u-hidden {
   display: none;
-}
-
-img{
-  width: 80%;
-  margin: 20px 10%;
-}
-svg {
-  /* pointer-events: none; */
 }

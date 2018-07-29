@@ -42,75 +42,76 @@ function getFeed(feedName, feedUrl){
   var baseUrl = "http://query.yahooapis.com/v1/public/yql?q="
   var queryString = encodeURI("SELECT * FROM feed WHERE url='" + feedUrl + "' LIMIT 10")
   var format = "&format=json"
-
+  
   var rssFeedPath = baseUrl + queryString + format
-
+  
   $.getJSON(rssFeedPath, function(response) {
     var feedItems = response.query.results.item
     if(typeof feedItems == "undefined") feedItems = response.query.results.entry
     var titleBar = $('<div class="feed-title">'+feedName+'</div>')
     var itemSource = $('<p class="feed-source">' + feedName + '</p>')
     articlesElement.append(titleBar)
-
-    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="clickParent()"><path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"></path></svg></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"><svg viewBox="0 0 24 24" style="width:50px;height:50px;" onclick="clickParent()"><path d="M7.41 7.84L12 12.42l4.59-4.58L18 9.25l-6 6-6-6z"></path></svg></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()">×</div></div>')
-
+    
+    var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()"></div></div>')
+    
     $.each(feedItems, function( index ) {
       var item = feedItems[index]
       var itemElement = $('<div class="feed-item" onclick="openArticle()"></div>')
       var date = item.pubDate || item.published || item.date;
       date = new Date(date)
-      date = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year:'numeric' }) + " " + date.toLocaleTimeString('en-GB', {hour: 'numeric', minute: 'numeric'})
-      var itemLink = $('<p class="feed-link" href="' + item.link + '">' + item.title +'</p><small>' + date + '</small>')
-      var itemImg = $('<img src="" class="feed-thumb">')
+      date = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year:'numeric' }) + " " + date.toLocaleTimeString('en-GB', {hour12: 'numeric', minute: 'numeric'})
+      var itemLink = $('<div class="feed-label"><p class="feed-link" href="' + item.link + '">' + item.title +'</p><small class="feed-date">' + date.slice(0, -3) + '</small></div>')
       
-      var itemContent
+      var itemContent;
       if(typeof item.encoded != "undefined"){
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.encoded + '</div>')
+        articleContent = item.encoded;
       } else if(typeof item.description == "undefined"){
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.content.content + '</div>')
+        articleContent = item.content.content;
       } else {
-        itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + item.description + '</div>')
+        articleContent = item.description;
       }
+      
+      var itemContent = $('<div class="feed-content u-hidden" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.link + '">Source</a><br>' + articleContent + '</div>')
       itemContent.append(articleBar.clone())
       
       itemElement.append(itemLink, itemContent)
       articlesElement.append(itemElement)
     })
+    textFit(document.getElementsByClassName('feed-label'), {multiLine: true, minFontSize:21, alignVert: true});
   })
 }
 
 window.closeArticle = function(){
   event.stopPropagation()
-  event.target.parentElement.parentElement.classList.add("u-hidden");
+  var el = findParentWithClass(event.target, "feed-content");
+  el.classList.add("u-hidden");
 }
 
 window.openArticle = function(){
   event.preventDefault()
-  event.target.lastChild.classList.toggle("u-hidden");
+  var el = findParentWithClass(event.target, "feed-item");
+  el.lastChild.classList.toggle("u-hidden");
 }
 
 window.scrollUp = function(){
   event.preventDefault()
   event.stopPropagation()
-  event.target.parentElement.parentElement.scrollTop -= window.innerHeight * 0.8
+  var el = findParentWithClass(event.target, "feed-content");
+  el.scrollTop -= window.innerHeight * 0.8
 }
 
 window.scrollDown = function(){
   event.preventDefault()
   event.stopPropagation()
-  event.target.parentElement.parentElement.scrollTop += window.innerHeight * 0.8
+  var el = findParentWithClass(event.target, "feed-content");
+  el.scrollTop += window.innerHeight * 0.8
 }
 
-window.clickParent = function(){
-  event.preventDefault()
-  event.stopPropagation()
-  try {
-    event.target.parentElement.click()
-  } catch (error) {
-    event.target.parentElement.parentElement.click()
-  }
-  
-}
 window.doNothing = function(){
   event.stopPropagation()
+}
+
+function findParentWithClass(el, cls) {
+  while ((el = el.parentNode) && el.className.indexOf(cls) < 0);
+  return el;
 }
