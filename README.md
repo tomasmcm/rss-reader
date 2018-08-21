@@ -1,3 +1,3 @@
 # RSS-Reader
 
-Javascript in-browser rss reader using Yahoo YQL API
+Kindle Experimental Browser Web App for reading news from [Winds](https://getstream.io/winds).
