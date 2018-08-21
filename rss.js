@@ -31,7 +31,7 @@ var feedsElement = $(".feeds");
 currentFeed = parseInt(window.location.hash.substr(1)) || 0
 
 function init(){
-  if (localStorage.getItem('jwt') == null) {
+  if (Cookies.get('jwt') == null) {
     $('.login').show();
   } else {
     $('.login').hide();
@@ -50,14 +50,15 @@ $("#login_button").click(function(){
     data: '{"email":"' + $('#email').val() + '","password":"' + $('#pass').val() + '"}',
     contentType: "application/json"
   }).done(function(data){
-    window.localStorage.setItem('jwt', data.jwt);
-    window.localStorage.setItem('id', data._id);
+    Cookies.set('jwt', data.jwt, { expires: 99999 });
+    Cookies.set('id', data._id, { expires: 99999 });
     init();
   })
 });
 
 $("#logout_button").click(function(){
-  window.localStorage.clear();
+  Cookies.remove('jwt');
+  Cookies.remove('id');
   feedsElement.hide();
   currentFeed = 0;
   articlesElement.html("");
@@ -71,7 +72,7 @@ function getFeeds(){
     type: "get",
     dataType: "json",
     headers: {
-      "authorization": "Bearer " + window.localStorage.jwt
+      "authorization": "Bearer " + Cookies.get('jwt')
     },
     contentType: "application/json"
   }).done(function(data){
@@ -103,7 +104,7 @@ function getArticles(){
     type: "get",
     dataType: "json",
     headers: {
-      "authorization": "Bearer " + window.localStorage.jwt
+      "authorization": "Bearer " + Cookies.get('jwt')
     },
     contentType: "application/json"
   }).done(function(data){
@@ -118,7 +119,7 @@ function appendArticles(items) {
   
   var titleBar = $('<div class="feed-title" onclick="toggleMenu()">' + window.feeds[currentFeed].name + '</div>')
   articlesElement.append(titleBar);
-  
+
   $.each(items, function( index ) {
     var item = items[index]
     var itemElement = $('<div class="feed-item" onclick="getArticle(\'' + item._id + '\')"></div>')
@@ -140,7 +141,7 @@ window.getArticle = function(article_id) {
     type: "get",
     dataType: "json",
     headers: {
-      "authorization": "Bearer " + window.localStorage.jwt
+      "authorization": "Bearer " + Cookies.get('jwt')
     },
     contentType: "application/json"
   }).done(function(data){
