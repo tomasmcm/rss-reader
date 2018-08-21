@@ -26,7 +26,7 @@ var loading = false;
 
 var currentFeed = 0;
 var articlesElement = $(".articles");
-var articleElement = $(".article");
+var articleElement = $(".article-container");
 var feedsElement = $(".feeds");
 currentFeed = parseInt(window.location.hash.substr(1)) || 0
 

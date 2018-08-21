@@ -138,7 +138,8 @@ body {
 .feed-content p {
   padding-bottom: 40px;
 }
-.feed-content img{
+.feed-content img {
+  max-width: 100% !important;
   display: block;
   height: auto !important;
 }
@@ -251,7 +252,7 @@ body {
   width: 100%;
 }
 
-.article {
+.article-container {
   position: absolute;
   left: 0px;
   right: 0px;
