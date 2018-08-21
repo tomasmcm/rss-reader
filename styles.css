@@ -139,6 +139,7 @@ body {
   padding-bottom: 40px;
 }
 .feed-content img{
+  display: block;
   height: auto !important;
 }
 .feed-content__title {
