@@ -139,9 +139,6 @@ body {
   padding-bottom: 40px;
 }
 .feed-content img{
-  width: 80% !important;
-  margin: 20px 10% !important;
-  display: block;
   height: auto !important;
 }
 .feed-content__title {
