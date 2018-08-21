@@ -65,14 +65,30 @@ body {
   width: 100%;
 }
 .feed-title {
-  letter-spacing: 40px;
-  font-size: 2em;
+  letter-spacing: 30px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 1.8em;
   padding: 20px 20px;
+  padding-left: 132px;
   border-bottom: 4px solid lightgrey;
   height: 92px;
   text-align: center;
   text-transform: uppercase;
   text-shadow: -5px 5px 0 lightgrey;
+}
+.feed-title:before{
+  content: '';
+  background-image: url("menu.png");
+  background-size: 50%;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: absolute;
+  height: 92px;
+  width: 92px;
+  top: 0px;
+  left: 0px;
+  border-right: 4px solid lightgrey;
 }
 .feed-item {
   border-bottom: 4px solid lightgrey;
@@ -82,7 +98,7 @@ body {
 .feed-label {
   padding: 10px 0;
   margin: 0 20px;
-  font-size: 1.2em;
+  font-size: 1.1em;
   height: 104px;
 }
 .feed-date {
@@ -97,6 +113,8 @@ body {
   font-size: 1.2em;
   pointer-events: none;
   padding-bottom: 0.3em;
+  white-space: nowrap;
+  overflow: hidden;
 }
 .feed-source {
   pointer-events: none;
@@ -106,6 +124,7 @@ body {
   left: 0px;
   right: 0px;
   top: 0px;
+  bottom: 0px;
   background: white;
   font-size: 1.5em;
   line-height: 1.6em;
@@ -194,6 +213,108 @@ body {
   padding: 24px 0px;
 }
 
+.login {
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  background: white;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-pack: justify;
+  padding: 1em;
+  padding-top: 3em;
+}
+.c-input {
+  border: 1px solid lightgrey;
+  font-size: 1.2em;
+  padding: 1em;
+  margin-bottom: 2em;
+  display: block;
+  width: 100%;
+}
+.c-label {
+  margin-bottom: .5em;
+  display: block;
+}
+
+.c-button {
+  border: 2px solid #000;
+  font-size: 1.5em;
+  padding: .6em 2em;
+  display: block;
+  appearance: none;
+  -webkit-appearance: none;
+  background: white;
+  font-family: "Amazon Ember", Helvetica, Arial, sans-serif;
+}
+.c-button--fw {
+  width: 100%;
+}
+
+.article {
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 0px;
+  bottom: 0px;
+  background: white;
+}
+
+.feeds {
+  position: absolute;
+  left: -4px;
+  top: 88px;
+  border: 4px solid lightgrey;
+  padding: 30px;
+  background: white;
+  z-index: 999;
+  max-width: 80%;
+  overflow-x: hidden;
+  overflow-y: visible;
+}
+.backdrop {
+  position: fixed;
+  top: 0px;
+  right: 0px;
+  bottom: 0px;
+  left: 0px;
+  z-index: -1;
+}
+.feed {
+  white-space: nowrap;
+  padding: .8em 10px;
+  font-size: 1.2em;
+  border-bottom: 2px solid lightgrey;
+}
+.feed:last-child {
+  border-bottom: none;
+}
+
+.main_title {
+  font-size: 3em;
+  line-height: 1.2em;
+  margin: 1em;
+  letter-spacing: 30px;
+  text-align: center;
+  text-transform: uppercase;
+  text-shadow: -5px 5px 0 lightgrey;
+}
+.main_subtitle {
+  font-size: 1.2em;
+  line-height: 1.5em;
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+
 .u-hidden {
   display: none;
+}
+.u-text-r {
+  text-align: right;
+}
+.u-inline {
+  display: inline-block;
 }
