@@ -1,55 +1,24 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title>WINDS.INK</title>
-    <link rel="stylesheet" type="text/css" href="styles.css">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0"/>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47256452-6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      gtag('config', 'UA-47256452-6');
-    </script>
-  </head>
 
-  <body style="display: none;">
-    <div class="feeds" style="display: none;">
-      <div class="backdrop"></div>
-      <p class="u-text-r">
-        <button class="c-button u-inline" id="logout_button">LOGOUT</button>
-      </p>
-      <br>
-      <small>FEEDS</small>
-    </div>
-    <div class="articles"></div>
-    <div class="article-container" style="display: none"></div>
-    <div class="feed-bar">
-      <div class="feed-bar__item feed-bar__up" onclick="previousFeed(this)"></div>
-      <div class="feed-bar__item feed-bar__down" onclick="nextFeed(this)"></div>
-    </div>
-    <div class="login">
-      <header>
-        <h1 class="main_title">winds.ink</h1>
-        <h4 class="main_subtitle">Create an account at <a href="https://winds.getstream.io/">winds.getstream.io</a><br>and login with the same credentials here.
-        </h4>
-      </header>
-      <fieldset>
-        <label class="c-label" for="email">EMAIL</label>
-        <input class="c-input" type="email" name="email" id="email">
-        
-        <label class="c-label" for="pass">PASSWORD</label>
-        <input class="c-input" type="password" name="pass" id="pass">
-        
-        <button class="c-button c-button--fw" id="login_button">LOGIN</button>
-      </fieldset>
-      <footer>
-        <a href="https://tomasmcm.design">tomasmcm</a> © 2018
-      </footer>
-    </div>
-    <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
-    <script src="js.cookie-2.2.0.min.js"></script>
-    <script src="rss.js"></script>
-  </body>
+<head>
+  <title>WINDS.INK</title>
+  <link rel="stylesheet" type="text/css" href="static/styles.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47256452-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-47256452-6');
+  </script>
+</head>
+
+<body>
+  <div id="app">
+  </div>
+  <script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+</body>
+
 </html>

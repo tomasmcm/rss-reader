@@ -35,7 +35,7 @@ function init(){
     $('.login').show();
   } else {
     $('.login').hide();
-    
+
     getFeeds();
   }
   $('body').show();
@@ -77,16 +77,16 @@ function getFeeds(){
     },
     contentType: "application/json"
   }).done(function(data){
-    
+
     if(!window.feeds) window.feeds = [];
-    
+
     $.each(data, function( index ) {
-      
+
       window.feeds.push({
         name: data[index].rss.description,
         id: data[index].rss._id
       })
-      
+
       appendFeed(data[index], index);
     });
   }).then(function(){
@@ -116,7 +116,7 @@ function getArticles(){
 function appendArticles(items) {
   articlesElement.html("");
   window.location.hash = currentFeed
-  
+
   var titleBar = $('<div class="feed-title" onclick="toggleMenu()">' + window.feeds[currentFeed].name + '</div>')
   articlesElement.append(titleBar);
 
@@ -126,7 +126,7 @@ function appendArticles(items) {
     var date = new Date(item.publicationDate)
     date = date.toLocaleDateString('en-GB', { day: 'numeric', month: 'numeric', year:'numeric' }) + " " + date.toLocaleTimeString('en-GB', {hour12: 'numeric', minute: 'numeric'})
     var itemName = $('<div class="feed-label"><p class="feed-link">' + item.title +'</p><small class="feed-date">' + date.slice(0, -3) + '</small></div>')
-    
+
     itemElement.append(itemName)
     articlesElement.append(itemElement)
   })
@@ -134,7 +134,7 @@ function appendArticles(items) {
 
 window.getArticle = function(article_id) {
   if(loading) return;
-  
+
   loading = true;
   $.ajax({
     url : base + "articles/" + article_id + "?type=parsed",
@@ -155,14 +155,14 @@ var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__u
 function appendArticle(item) {
   var itemContent = $('<div class="feed-content" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.url + '">Source</a><br><img src="' + item.image + '" alt=""><br>' + item.content + '</div>')
   itemContent.append(articleBar.clone())
-  
+
   articleElement.append(itemContent);
   articleElement.show();
 }
 
 window.closeArticle = function(){
   event.stopPropagation()
-  
+
   articleElement.hide();
   articleElement.html("");
 }

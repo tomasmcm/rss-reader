@@ -2,7 +2,7 @@
 .DS_Store
 .AppleDouble
 .LSOverride
-
+.cache
 
 # Thumbnails
 ._*
@@ -78,6 +78,7 @@ typings/
 
 # Yarn Integrity file
 .yarn-integrity
+yarn-error.log
 
 # dotenv environment variables file
 .env
