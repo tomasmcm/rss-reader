@@ -38,6 +38,7 @@ function init(){
     
     getFeeds();
   }
+  $('body').show();
 }
 init();
 
@@ -108,7 +109,6 @@ function getArticles(){
     },
     contentType: "application/json"
   }).done(function(data){
-    console.log(data);
     appendArticles(data);
   })
 }
@@ -145,7 +145,6 @@ window.getArticle = function(article_id) {
     },
     contentType: "application/json"
   }).done(function(data){
-    console.log(data);
     loading = false;
     appendArticle(data);
   })
@@ -154,7 +153,7 @@ window.getArticle = function(article_id) {
 var articleBar = $('<div class="feed-bar"><div class="feed-bar__item feed-bar__up" onclick="scrollUp()"></div><div class="feed-bar__item feed-bar__down" onclick="scrollDown()"></div><div class="feed-bar__item feed-bar__close" onclick="closeArticle()"></div></div>')
 
 function appendArticle(item) {
-  var itemContent = $('<div class="feed-content" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.url + '">Source</a><br>' + item.content + '</div>')
+  var itemContent = $('<div class="feed-content" onclick="doNothing()"><h1 class="feed-content__title">' + item.title + '</h1><a href="' + item.url + '">Source</a><br><img src="' + item.image + '" alt=""><br>' + item.content + '</div>')
   itemContent.append(articleBar.clone())
   
   articleElement.append(itemContent);
@@ -200,7 +199,6 @@ window.loadFeed = function(id){
 }
 
 $(".backdrop").click(function(e){
-  console.log(e);
   feedsElement.hide();
 });
 
