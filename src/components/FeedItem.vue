@@ -1,13 +1,10 @@
 <template>
   <div class="feed-item" @click="$eventHub.$emit('get-article', article.id)">
-    <div class="feed-item__date">
-      {{ article.time }}
-      <small>
-        {{ article.date }}
-      </small>
-    </div>
     <div class="feed-item__title">
       {{ article.title }}
+    </div>
+    <div class="feed-item__date">
+      {{ timeSince(article.date) }} ago
     </div>
   </div>
 </template>
@@ -15,7 +12,24 @@
 <script>
 export default {
   name: "feed-item",
-  props: ["article"]
+  props: ["article"],
+  methods: {
+    timeSince: function(date) {
+      var seconds = Math.floor(new Date().getTime() / 1000 - date),
+        interval = Math.floor(seconds / 2592000);
+      if (interval >= 1)
+        return interval + " month" + (interval == 1 ? "" : "s");
+
+      interval = Math.floor(seconds / 86400);
+      if (interval >= 1) return interval + " day" + (interval == 1 ? "" : "s");
+
+      interval = Math.floor(seconds / 3600);
+      if (interval >= 1) return interval + " hour" + (interval == 1 ? "" : "s");
+
+      interval = Math.floor(seconds / 60);
+      return interval + " minute" + (interval == 1 ? "" : "s");
+    }
+  }
 };
 </script>
 <style scoped>
@@ -30,15 +44,13 @@ export default {
   display: -webkit-box;
 }
 .feed-item__date {
-  font-size: 1.6em;
   font-family: "Bookerly", Helvetica, Arial, sans-serif;
   color: grey;
-}
-.feed-item__date small {
-  font-size: 0.5em;
-  letter-spacing: 0.8em;
-  display: block;
-  margin-top: 5px;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-box-pack: end;
+  padding: 0 10px;
 }
 .feed-item__title {
   color: #111;
@@ -49,5 +61,9 @@ export default {
   pointer-events: none;
   padding: 0 10px;
   -webkit-box-flex: 1;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+  -webkit-box-pack: center;
 }
 </style>

@@ -112,12 +112,9 @@ export default {
       }).done(function(data) {
         self.articles = [];
         $.each(data, function(index) {
-          var date = new Date(data[index].publicationDate);
-
           self.articles.push({
             title: data[index].title,
-            date: date.getDate() + "·" + ("0" + (date.getMonth() + 1)).slice(-2),
-            time: date.getHours() + "h" + ("0" + date.getMinutes()).slice(-2),
+            date: Math.round((new Date(data[index].publicationDate)).getTime() / 1000),
             id: data[index]._id
           });
         });
@@ -207,7 +204,7 @@ export default {
   height: 92px;
   text-align: center;
   text-transform: uppercase;
-  text-shadow: -5px 5px 0 lightgrey;
+  text-shadow: -3px 2px 0 white, -6px 4px 0 lightgrey;
 }
 .feed-title:before {
   content: "";
