@@ -50,7 +50,7 @@ export default {
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
   -webkit-box-pack: end;
-  padding: 0 10px;
+  padding: 7px 10px;
 }
 .feed-item__title {
   color: #111;

@@ -193,7 +193,7 @@ export default {
 }
 
 .feed-title {
-  letter-spacing: 30px;
+  letter-spacing: 20px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
