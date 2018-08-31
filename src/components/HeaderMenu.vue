@@ -1,11 +1,12 @@
 <template>
   <div class="feeds">
     <div class="backdrop" @click="$eventHub.$emit('hide-menu')"></div>
-    <p class="u-text-r">
+    <div class="header-bar">
+      <p class="header-title">FEEDS</p>
       <button class="c-button u-inline" id="logout_button" @click="logout">LOGOUT</button>
-    </p>
+    </div>
     <br>
-    <small>FEEDS</small>
+
     <div v-for="feed in feeds" class="feed" v-bind:class="{ 'is-active': (feed.index == currentFeed) }" :key=" 'loadFeed' + feed.index " @click="$eventHub.$emit('load-feed', feed.index)">
       {{ feed.name }}
     </div>
@@ -48,6 +49,16 @@ export default {
   left: 0px;
   z-index: -1;
 }
+.header-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.header-title {
+  font-size: 1.5em;
+  padding-left: 5px;
+  text-shadow: -3px 2px 0 white, -6px 4px 0 lightgrey;
+}
 .feed {
   white-space: nowrap;
   padding: 0.8em 10px;
@@ -61,8 +72,8 @@ export default {
   border-bottom: none;
 }
 .c-button {
-  border: 2px solid #000;
-  font-size: 1.5em;
+  border: 2px solid grey;
+  font-size: 1.4em;
   padding: .6em 2em;
   display: block;
   appearance: none;

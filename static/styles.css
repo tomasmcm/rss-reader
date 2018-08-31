@@ -74,8 +74,3 @@ body {
 .feed-bar__close {
   background-image: url("close.png");
 }
-
-
-.u-text-r {
-  text-align: right;
-}
