@@ -5,7 +5,9 @@
       <div class="feed-title" @click="showMenu = !showMenu">
         {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
       </div>
-      <FeedItem v-for="article in articles" :article="article" :key="article.id" />
+      <div class="feed-item__container">
+        <FeedItem v-for="article in articles" :article="article" :key="article.id" />
+      </div>
     </div>
     <div class="article-container" v-if="article">
       <div class="article-content" ref="articleContent" @click="doNothing">
@@ -42,7 +44,7 @@
 <script>
 import HeaderMenu from "./HeaderMenu.vue";
 import FeedItem from "./FeedItem.vue";
-const axios = require('axios');
+const axios = require("axios");
 
 export default {
   name: "container",
@@ -113,7 +115,9 @@ export default {
         for (let index = 0; index < response.data.length; index++) {
           self.articles.push({
             title: response.data[index].title,
-            date: Math.round((new Date(response.data[index].publicationDate)).getTime() / 1000),
+            date: Math.round(
+              new Date(response.data[index].publicationDate).getTime() / 1000
+            ),
             id: response.data[index]._id
           });
         }
@@ -189,15 +193,17 @@ export default {
 .feed-articles {
   width: 100%;
 }
+.feed-item__container {
+  padding: 0 20px;
+}
 
 .feed-title {
-  letter-spacing: 20px;
+  letter-spacing: 10px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
   font-size: 1.8em;
-  padding: 20px 20px;
-  padding-left: 132px;
+  padding: 20px 120px;
   border-bottom: 4px solid lightgrey;
   height: 92px;
   text-align: center;
@@ -316,7 +322,7 @@ export default {
 }
 .article-content__toolbar {
   display: flex;
-  justify-content: space-between
+  justify-content: space-between;
 }
 .article-content__author {
   font-size: 0.7em;

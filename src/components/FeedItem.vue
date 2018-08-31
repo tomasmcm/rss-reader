@@ -1,10 +1,10 @@
 <template>
   <div class="feed-item" @click="$eventHub.$emit('get-article', article.id)">
-    <div class="feed-item__title">
-      {{ article.title }}
-    </div>
     <div class="feed-item__date">
       {{ timeSince(article.date) }} ago
+    </div>
+    <div class="feed-item__title">
+      {{ article.title }}
     </div>
   </div>
 </template>
@@ -34,23 +34,27 @@ export default {
 </script>
 <style scoped>
 .feed-item {
-  border-bottom: 4px solid lightgrey;
   overflow: hidden;
-  height: 108px;
-
-  padding: 10px 20px;
+  height: 216px;
+  width: 50%;
+  float: left;
+  padding: 10px;
   font-size: 1.1em;
-  position: relative;
-  display: flex;
+  margin: 0 -5px;
 }
 .feed-item__date {
   font-family: "Bookerly", Helvetica, Arial, sans-serif;
-  color: grey;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  padding: 7px 10px;
-  white-space: nowrap;
+  color: darkgrey;
+  padding: 7px 0px;
+  font-size: 0.8em;
+}
+.feed-item__date:after {
+  content: "";
+  width: 80px;
+  height: 2px;
+  display: block;
+  background: lightgrey;
+  margin-top: 10px;
 }
 .feed-item__title {
   color: #111;
@@ -59,10 +63,6 @@ export default {
   line-height: 1.2em;
   font-size: 1.2em;
   pointer-events: none;
-  padding: 0 10px;
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  padding-right: 20px;
 }
 </style>
