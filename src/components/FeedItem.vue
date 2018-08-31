@@ -41,16 +41,16 @@ export default {
   padding: 10px 20px;
   font-size: 1.1em;
   position: relative;
-  display: -webkit-box;
+  display: flex;
 }
 .feed-item__date {
   font-family: "Bookerly", Helvetica, Arial, sans-serif;
   color: grey;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-box-pack: end;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
   padding: 7px 10px;
+  white-space: nowrap;
 }
 .feed-item__title {
   color: #111;
@@ -60,10 +60,9 @@ export default {
   font-size: 1.2em;
   pointer-events: none;
   padding: 0 10px;
-  -webkit-box-flex: 1;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-  -webkit-box-pack: center;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 </style>

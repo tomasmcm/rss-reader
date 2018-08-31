@@ -66,7 +66,6 @@ export default {
   padding: .6em 2em;
   display: block;
   appearance: none;
-  -webkit-appearance: none;
   background: white;
   font-family: "Amazon Ember", Helvetica, Arial, sans-serif;
 }

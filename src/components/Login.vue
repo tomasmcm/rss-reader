@@ -23,6 +23,7 @@
 
 <script>
 var Cookies = require("js-cookie");
+const axios = require('axios');
 
 export default {
   name: "login",
@@ -36,17 +37,19 @@ export default {
   methods: {
     login: function() {
       var self = this;
-      $.ajax({
+      axios({
         url: self.base + "auth/login",
-        type: "post",
-        dataType: "json",
-        data: '{"email":"' + self.email + '","password":"' + self.pass + '"}',
-        contentType: "application/json"
-      }).done(function(data) {
+        method: "post",
+        responseType: "json",
+        data: {
+          email: self.email,
+          password: self.pass
+        },
+      }).then(function(response) {
         self.email = "";
         self.pass = "";
-        Cookies.set("jwt", data.jwt, { expires: 99999 });
-        Cookies.set("id", data._id, { expires: 99999 });
+        Cookies.set("jwt", response.data.jwt, { expires: 99999 });
+        Cookies.set("id", response.data._id, { expires: 99999 });
         self.$eventHub.$emit("auth");
       });
     }
@@ -77,9 +80,9 @@ export default {
   bottom: 0;
   right: 0;
   background: white;
-  display: -webkit-box;
-  -webkit-box-orient: vertical;
-  -webkit-box-pack: justify;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   padding: 1em;
   padding-top: 3em;
 }
@@ -102,7 +105,6 @@ export default {
   padding: .6em 2em;
   display: block;
   appearance: none;
-  -webkit-appearance: none;
   background: white;
   font-family: "Amazon Ember", Helvetica, Arial, sans-serif;
 }

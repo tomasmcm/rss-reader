@@ -18,5 +18,13 @@ module.exports = {
     source: 'src',
     img: 'src',
     image: 'xlink:href'
-  }
+  },
+  vue: {
+    postcss: [
+      require('autoprefixer')(),
+    ]
+  },
+  postcss: [
+    require('autoprefixer')(),
+  ]
 }

@@ -8,7 +8,7 @@
       <FeedItem v-for="article in articles" :article="article" :key="article.id" />
     </div>
     <div class="article-container" v-if="article">
-      <div class="article-content" @click="doNothing">
+      <div class="article-content" ref="articleContent" @click="doNothing">
         <p class="article-content__date">
           {{ new Date(article.date).toLocaleDateString("en-GB", { day: "numeric", month: "numeric", year: "numeric" }) + " " + new Date(article.date).toLocaleTimeString("en-GB", { hour12: "numeric", minute: "numeric" }) }}
         </p>
@@ -42,6 +42,7 @@
 <script>
 import HeaderMenu from "./HeaderMenu.vue";
 import FeedItem from "./FeedItem.vue";
+const axios = require('axios');
 
 export default {
   name: "container",
@@ -73,23 +74,22 @@ export default {
   methods: {
     getFeeds: function() {
       var self = this;
-      $.ajax({
+      axios({
         url: self.base + "follows?type=rss",
-        type: "get",
-        dataType: "json",
+        method: "get",
+        responseType: "json",
         headers: {
           authorization: "Bearer " + self.jwt
-        },
-        contentType: "application/json"
+        }
       })
-        .done(function(data) {
-          $.each(data, function(index) {
+        .then(function(response) {
+          for (let index = 0; index < response.data.length; index++) {
             self.feeds.push({
-              name: data[index].rss.description,
+              name: response.data[index].rss.description,
               index: index,
-              id: data[index].rss._id
+              id: response.data[index].rss._id
             });
-          });
+          }
         })
         .then(function() {
           self.getArticles();
@@ -97,27 +97,26 @@ export default {
     },
     getArticles: function() {
       var self = this;
-      $.ajax({
+      axios({
         url:
           self.base +
           "articles?page=1&per_page=10&rss=" +
           self.feeds[self.currentFeed].id +
           "&sort_by=publicationDate,desc",
-        type: "get",
-        dataType: "json",
+        method: "get",
+        responseType: "json",
         headers: {
           authorization: "Bearer " + self.jwt
-        },
-        contentType: "application/json"
-      }).done(function(data) {
+        }
+      }).then(function(response) {
         self.articles = [];
-        $.each(data, function(index) {
+        for (let index = 0; index < response.data.length; index++) {
           self.articles.push({
-            title: data[index].title,
-            date: Math.round((new Date(data[index].publicationDate)).getTime() / 1000),
-            id: data[index]._id
+            title: response.data[index].title,
+            date: Math.round((new Date(response.data[index].publicationDate)).getTime() / 1000),
+            id: response.data[index]._id
           });
-        });
+        }
         window.location.hash = self.currentFeed;
       });
     },
@@ -126,22 +125,21 @@ export default {
 
       var self = this;
       self.isLoading = true;
-      $.ajax({
+      axios({
         url: self.base + "articles/" + article_id + "?type=parsed",
-        type: "get",
-        dataType: "json",
+        method: "get",
+        responseType: "json",
         headers: {
           authorization: "Bearer " + self.jwt
-        },
-        contentType: "application/json"
-      }).done(function(data) {
+        }
+      }).then(function(response) {
         self.isLoading = false;
         self.article = {
-          title: data.title,
-          url: data.url,
-          image: data.image,
-          content: data.content,
-          date: data.publicationDate
+          title: response.data.title,
+          url: response.data.url,
+          image: response.data.image,
+          content: response.data.content,
+          date: response.data.publicationDate
         };
       });
     },
@@ -169,12 +167,12 @@ export default {
     scrollUp: function(event) {
       event.preventDefault();
       event.stopPropagation();
-      $(".article-content")[0].scrollTop -= window.innerHeight * 0.8;
+      this.$refs.articleContent.scrollTop -= window.innerHeight * 0.8;
     },
     scrollDown: function(event) {
       event.preventDefault();
       event.stopPropagation();
-      $(".article-content")[0].scrollTop += window.innerHeight * 0.8;
+      this.$refs.articleContent.scrollTop += window.innerHeight * 0.8;
     },
     doNothing: function(event) {
       event.stopPropagation();
@@ -317,8 +315,8 @@ export default {
   margin-top: 10px;
 }
 .article-content__toolbar {
-  display: -webkit-box;
-  -webkit-box-pack: justify;
+  display: flex;
+  justify-content: space-between
 }
 .article-content__author {
   font-size: 0.7em;
