@@ -65,4 +65,9 @@ export default {
   pointer-events: none;
   padding-right: 20px;
 }
+@media not monochrome {
+  .feed-item {
+    height: calc((100vh - 92px - 100px) / 5);
+  }
+}
 </style>
