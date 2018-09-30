@@ -1,11 +1,24 @@
-import Vue from 'vue';
-import App from './App.vue';
-require('url-search-params');
-require('es6-promise/auto');
+// import Vue from 'vue';
+// import App from './App.vue';
+// require('url-search-params');
+// require('es6-promise/auto');
+'use strict';
 
-Vue.prototype.$eventHub = new Vue();
+function ready(fn) {
+  if (document.attachEvent ? document.readyState === "complete" : document.readyState !== "loading"){
+    fn();
+  } else {
+    document.addEventListener('DOMContentLoaded', fn);
+  }
+}
 
-new Vue({
-  el: '#app',
-  render: h => h(App)
+ready(function(){
+  Vue.prototype.$eventHub = new Vue();
+
+  new Vue({
+    el: "#app",
+    render: function render(h) {
+      return h(App);
+    }
+  });
 });
