@@ -213,6 +213,7 @@ body {
   color: darkgrey;
   padding: 7px 0px;
   font-size: 0.8em;
+  font-weight: 500;
 }
 .feed-item__date:after {
   content: "";
@@ -230,6 +231,7 @@ body {
   font-size: 1.2em;
   pointer-events: none;
   padding-right: 20px;
+  font-weight: 500;
 }
 @media not monochrome {
   .feed-item {

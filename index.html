@@ -6,6 +6,10 @@
   <link rel="stylesheet" type="text/css" href="static/styles.css">
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <script src="/static/vue-2.5.17.min.js"></script>
+  <script src="/static/url-search-params-1.0.2.js"></script>
+  <script src="/static/js.cookie-2.2.0.min.js"></script>
+  <script src="/src/main.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47256452-6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -15,8 +19,11 @@
     gtag('config', 'UA-47256452-6');
   </script>
 </head>
-
 <body>
+  <div id="app">
+  </div>
+
+
   <script type="text/x-template" id="login-template">
     <div class="login">
       <header>
@@ -104,21 +111,5 @@
       </div>
     </div>
   </script>
-
-  <div id="app">
-  </div>
-
-  <script src="/static/vue-2.5.17.min.js"></script>
-  <script src="/static/url-search-params-1.0.2.js"></script>
-  <script src="/static/js.cookie-2.2.0.min.js"></script>
-
-  <script src="/src/components/Login.js"></script>
-  <script src="/src/components/HeaderMenu.js"></script>
-  <script src="/src/components/FeedItem.js"></script>
-  <script src="/src/components/Container.js"></script>
-  <script src="/src/App.js"></script>
-  <script src="/src/main.js"></script>
-
 </body>
-
 </html>
