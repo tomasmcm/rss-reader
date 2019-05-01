@@ -43,7 +43,44 @@ var Container = Vue.component("container", {
   data: function data() {
     return {
       base: "https://winds-prod.getstream.io/",
-      feeds: [],
+      feeds: [
+        {
+          name: "The Verge",
+          url: "http://www.theverge.com/rss/index.xml"
+        },
+        {
+          name: "Hacker News",
+          url: "http://news.ycombinator.com/rss"
+        },
+        {
+          name: "Engadget",
+          url: "http://www.engadget.com/rss-full.xml"
+        },
+        {
+          name: "Adafruit",
+          url: "http://www.adafruit.com/blog/feed/"
+        },
+        {
+          name: "Hackaday",
+          url: "https://hackaday.com/blog/feed/"
+        },
+        {
+          name: "9to5Mac",
+          url: "http://9to5mac.com/feed/"
+        },
+        {
+          name: "MacRumors",
+          url: "http://www.macrumors.com/macrumors.xml"
+        },
+        {
+          name: "GSM Arena",
+          url: "https://www.gsmarena.com/rss-news-reviews.php3"
+        },
+        {
+          name: "Gizmodo",
+          url: "https://gizmodo.com/rss"
+        }
+      ],
       articles: [],
       currentFeed: parseInt(window.location.hash.substr(1)) || 0,
       showMenu: false,
@@ -62,7 +99,8 @@ var Container = Vue.component("container", {
     this.$eventHub.$off("get-article");
   },
   mounted: function mounted() {
-    this.getFeeds();
+    //this.getFeeds();
+    this.getArticles();
   },
 
   methods: {
@@ -100,31 +138,27 @@ var Container = Vue.component("container", {
       var self = this;
 
       var request = new XMLHttpRequest();
+      // request.open(
+      //   "GET",
+      //   "https://api.rss2json.com/v1/api.json?rss_url=" +
+      //     self.feeds[self.currentFeed].url +
+      //     "&api_key=2a5unfouu07qygr7zmgxlqn5lncepmfrjhwbhzxb",
+      //   true
+      // );
       request.open(
         "GET",
-        self.base +
-          "articles?page=1&per_page=10&rss=" +
-          self.feeds[self.currentFeed].id +
-          "&sort_by=publicationDate,desc",
+        "https://cors-anywhere.herokuapp.com/www.freefullrss.com/feed.php?url=" +
+        encodeURI(self.feeds[self.currentFeed].url) +
+          "&max=10&format=json",
         true
       );
-      request.setRequestHeader("authorization", "Bearer " + self.jwt);
 
       request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
           // Success!
           var resp = JSON.parse(request.response);
 
-          self.articles = [];
-          for (var index = 0; index < resp.length; index++) {
-            self.articles.push({
-              title: resp[index].title,
-              date: Math.round(
-                new Date(resp[index].publicationDate).getTime() / 1000
-              ),
-              id: resp[index]._id
-            });
-          }
+          self.articles = resp.rss.channel.item;
           window.location.hash = self.currentFeed;
         } else {
           // We reached our target server, but it returned an error
@@ -137,43 +171,14 @@ var Container = Vue.component("container", {
 
       request.send();
     },
-    getArticle: function getArticle(article_id) {
+    getArticle: function getArticle(article) {
       if (this.isLoading) return;
 
       var self = this;
       self.isLoading = true;
 
-      var request = new XMLHttpRequest();
-      request.open(
-        "GET",
-        self.base + "articles/" + article_id + "?type=parsed",
-        true
-      );
-      request.setRequestHeader("authorization", "Bearer " + self.jwt);
-
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-          // Success!
-          var resp = JSON.parse(request.response);
-
-          self.isLoading = false;
-          self.article = {
-            title: resp.title,
-            url: resp.url,
-            image: resp.image,
-            content: resp.content,
-            date: resp.publicationDate
-          };
-        } else {
-          // We reached our target server, but it returned an error
-        }
-      };
-
-      request.onerror = function() {
-        // There was a connection error of some sort
-      };
-
-      request.send();
+      self.isLoading = false;
+      self.article = article;
     },
     previousFeed: function previousFeed() {
       this.currentFeed = this.currentFeed - 1;
@@ -265,7 +270,8 @@ var Login = Vue.component("login", {
 var App = Vue.component("app", {
   name: "app",
   template:
-    '<div id="app"><Login v-if="!auth" /><Container v-if="auth" :jwt="jwt" /></div>',
+    //'<div id="app"><Login v-if="!auth" /><Container v-if="auth" :jwt="jwt" /></div>',
+    '<Container :jwt="jwt" /></div>',
   data: function data() {
     return {
       auth: !(Cookies.get("jwt") == null),
