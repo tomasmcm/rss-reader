@@ -51,21 +51,21 @@
       <div class="backdrop" @click="$eventHub.$emit('hide-menu')"></div>
       <div class="header-bar">
         <p class="header-title">FEEDS</p>
-        <!-- <button class="c-button u-inline" id="logout_button" @click="logout">LOGOUT</button> -->
+        <button class="c-button u-inline" id="logout_button" @click="logout">LOGOUT</button>
       </div>
       <br>
-      <div v-for="(feed, index) in feeds" class="feed" v-bind:class="{ 'is-active': (index == currentFeed) }" :key=" 'loadFeed' + index " @click="$eventHub.$emit('load-feed', index)">
+      <div v-for="feed in feeds" class="feed" v-bind:class="{ 'is-active': (feed.index == currentFeed) }" :key=" 'loadFeed' + feed.index " @click="$eventHub.$emit('load-feed', feed.index)">
         {{ feed.name }}
       </div>
     </div>
   </script>
   <script type="text/x-template" id="feed-item-template">
-    <div class="feed-item" @click="$eventHub.$emit('get-article', article)">
+    <div class="feed-item" @click="$eventHub.$emit('get-article', article.id)">
       <div class="feed-item__date">
-        {{ timeSince( Math.round( new Date(article.pubDate).getTime() / 1000 ) ) }} ago
+        {{ timeSince(article.date) }} ago
       </div>
       <div class="feed-item__title">
-        {{ article.og_title ? article.og_title : article.title }}
+        {{ article.title }}
       </div>
     </div>
   </script>
@@ -83,19 +83,21 @@
       <div class="article-container" v-if="article">
         <div class="article-content" ref="articleContent" @click="doNothing">
           <p class="article-content__date">
-            {{ new Date(article.pubDate).toLocaleString("en-GB") }}
+            {{ new Date(article.date).toLocaleDateString("en-GB", { day: "numeric", month: "numeric", year: "numeric" }) + " " + new Date(article.date).toLocaleTimeString("en-GB", { hour12: "numeric", minute: "numeric" }) }}
           </p>
           <h1 class="article-content__title">
-            {{ article.og_title ? article.og_title : article.title }}
+            {{ article.title }}
           </h1>
           <div class="article-content__toolbar">
             <p class="article-content__author">
-              {{ article.dc_creator }} {{ (feeds[currentFeed]) ? "· " + feeds[currentFeed].name : "" }}
+              {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
             </p>
-            <a class="article-content__source" :href="article.link">View Source</a>
+            <a class="article-content__source" :href="article.url">View Source</a>
           </div>
           <br>
-          <div class="article-content__html" v-html="article.description"></div>
+          <img :src="article.image" alt="">
+          <br>
+          <div class="article-content__html" v-html="article.content"></div>
         </div>
         <div class="feed-bar">
           <div class="feed-bar__item feed-bar__up" @click="scrollUp"></div>
