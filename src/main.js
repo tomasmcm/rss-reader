@@ -62,7 +62,11 @@ var Container = Vue.component("container", {
     this.$eventHub.$off("get-article");
   },
   mounted: function mounted() {
-    this.getFeeds();
+    try {
+      this.getFeeds();
+    } catch (error) {
+      alert(error)
+    }
   },
 
   methods: {
@@ -84,7 +88,11 @@ var Container = Vue.component("container", {
               id: resp[index].rss._id
             });
           }
-          self.getArticles();
+          try {
+            self.getArticles();
+          } catch (error) {
+            alert(error)
+          }
         } else {
           // We reached our target server, but it returned an error
         }
