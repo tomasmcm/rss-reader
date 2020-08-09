@@ -9,7 +9,7 @@
   <script src="./static/vue-2.5.17.min.js"></script>
   <script src="./static/url-search-params-1.0.2.js"></script>
   <script src="./static/js.cookie-2.2.0.min.js"></script>
-  <script src="./src/main.js"></script>
+  <script src="./src/backup.js"></script>
   <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47256452-6"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -23,46 +23,23 @@
   <div id="app">
   </div>
 
-
-  <script type="text/x-template" id="login-template">
-    <div class="login">
-      <header>
-        <h1 class="main_title">winds.ink</h1>
-        <h4 class="main_subtitle">Create an account at
-          <a href="https://winds.getstream.io/">winds.getstream.io</a><br>and login with the same credentials here.
-        </h4>
-      </header>
-      <fieldset>
-        <label class="c-label" for="email">EMAIL</label>
-        <input class="c-input" type="email" name="email" id="email" v-model="email">
-
-        <label class="c-label" for="pass">PASSWORD</label>
-        <input class="c-input" type="password" name="pass" id="pass" v-model="pass">
-
-        <button class="c-button c-button--fw" id="login_button" @click="login">LOGIN</button>
-      </fieldset>
-      <footer>
-        <a href="https://tomasmcm.design">tomasmcm</a> © 2018
-      </footer>
-    </div>
-  </script>
   <script type="text/x-template" id="header-menu-template">
     <div class="feeds">
       <div class="backdrop" @click="$eventHub.$emit('hide-menu')"></div>
       <div class="header-bar">
         <p class="header-title">FEEDS</p>
-        <button class="c-button u-inline" id="logout_button" @click="logout">LOGOUT</button>
       </div>
       <br>
       <div v-for="feed in feeds" class="feed" v-bind:class="{ 'is-active': (feed.index == currentFeed) }" :key=" 'loadFeed' + feed.index " @click="$eventHub.$emit('load-feed', feed.index)">
         {{ feed.name }}
       </div>
+
       <br>
-      <a class="c-button u-inline" href="/backup.html">BACKUP</a>
+      <a class="c-button u-inline" href="/">ORIGINAL</a>
     </div>
   </script>
   <script type="text/x-template" id="feed-item-template">
-    <div class="feed-item" @click="$eventHub.$emit('get-article', article.id)">
+    <div class="feed-item" @click="$eventHub.$emit('get-article', article)">
       <div class="feed-item__date">
         {{ timeSince(article.date) }} ago
       </div>
@@ -76,7 +53,7 @@
       <HeaderMenu :feeds="feeds" :currentFeed="currentFeed" v-if="showMenu" />
       <div class="feed-articles">
         <div class="feed-title" @click="showMenu = !showMenu">
-          {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
+          (⇀‸↼‶) {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
         </div>
         <div class="feed-item__container">
           <FeedItem v-for="article in articles" :article="article" :key="article.id" />

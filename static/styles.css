@@ -125,6 +125,8 @@ body {
           appearance: none;
   background: white;
   font-family: "Amazon Ember", Helvetica, Arial, sans-serif;
+  text-decoration: none;
+  color: #000;
 }
 .c-button--fw {
   width: 100%;
