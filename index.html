@@ -29,20 +29,14 @@
       <header>
         <h1 class="main_title">winds.ink</h1>
         <h4 class="main_subtitle">Create an account at
-          <a href="https://winds.getstream.io/">winds.getstream.io</a><br>and login with the same credentials here.
+          <a href="https://inoreader.com/">inoreader</a><br>and then click authorize.
         </h4>
       </header>
       <fieldset>
-        <label class="c-label" for="email">EMAIL</label>
-        <input class="c-input" type="email" name="email" id="email" v-model="email">
-
-        <label class="c-label" for="pass">PASSWORD</label>
-        <input class="c-input" type="password" name="pass" id="pass" v-model="pass">
-
-        <button class="c-button c-button--fw" id="login_button" @click="login">LOGIN</button>
+        <button class="c-button c-button--fw" id="login_button" @click="authorize">AUTHORIZE</button>
       </fieldset>
       <footer>
-        <a href="https://tomasmcm.design">tomasmcm</a> © 2018
+        <a href="https://tomasmcm.design">tomasmcm</a> © 2020
       </footer>
     </div>
   </script>
@@ -60,7 +54,7 @@
     </div>
   </script>
   <script type="text/x-template" id="feed-item-template">
-    <div class="feed-item" @click="$eventHub.$emit('get-article', article.id)">
+    <div class="feed-item" @click="$eventHub.$emit('get-article', article)">
       <div class="feed-item__date">
         {{ timeSince(article.date) }} ago
       </div>

@@ -30,7 +30,7 @@ var HeaderMenu = Vue.component("header-menu", {
   methods: {
     logout: function logout() {
       Cookies.remove("jwt");
-      Cookies.remove("id");
+      Cookies.remove("refresh");
       this.$eventHub.$emit("auth");
     }
   }
@@ -42,7 +42,7 @@ var Container = Vue.component("container", {
   props: ["jwt"],
   data: function data() {
     return {
-      base: "https://winds-prod.getstream.io/",
+      base: "https://cors-anywhere.herokuapp.com/https://www.inoreader.com/reader/api/0/",
       feeds: [],
       articles: [],
       currentFeed: parseInt(window.location.hash.substr(1)) || 0,
@@ -74,18 +74,18 @@ var Container = Vue.component("container", {
       var self = this;
 
       var request = new XMLHttpRequest();
-      request.open("GET", self.base + "follows?type=rss", true);
+      request.open("GET", self.base + "subscription/list", true);
       request.setRequestHeader("authorization", "Bearer " + self.jwt);
 
       request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
           // Success!
           var resp = JSON.parse(request.response);
-          for (var index = 0; index < resp.length; index++) {
+          for (var index = 0; index < resp.subscriptions.length; index++) {
             self.feeds.push({
-              name: resp[index].rss.description,
+              name: resp.subscriptions[index].title,
               index: index,
-              id: resp[index].rss._id
+              id: resp.subscriptions[index].id
             });
           }
           try {
@@ -111,9 +111,8 @@ var Container = Vue.component("container", {
       request.open(
         "GET",
         self.base +
-          "articles?page=1&per_page=10&rss=" +
-          self.feeds[self.currentFeed].id +
-          "&sort_by=publicationDate,desc",
+          "stream/contents/" +
+          self.feeds[self.currentFeed].id,
         true
       );
       request.setRequestHeader("authorization", "Bearer " + self.jwt);
@@ -122,15 +121,15 @@ var Container = Vue.component("container", {
         if (request.status >= 200 && request.status < 400) {
           // Success!
           var resp = JSON.parse(request.response);
+          console.log(resp)
 
           self.articles = [];
-          for (var index = 0; index < resp.length; index++) {
+          for (var index = 0; index < resp.items.length; index++) {
             self.articles.push({
-              title: resp[index].title,
-              date: Math.round(
-                new Date(resp[index].publicationDate).getTime() / 1000
-              ),
-              id: resp[index]._id
+              title: resp.items[index].title,
+              date: resp.items[index].published / 1000,
+              content: resp.items[index].summary.content,
+              url: resp.items[index].canonical[0].href,
             });
           }
           window.location.hash = self.currentFeed;
@@ -145,43 +144,19 @@ var Container = Vue.component("container", {
 
       request.send();
     },
-    getArticle: function getArticle(article_id) {
+    getArticle: function getArticle(article) {
       if (this.isLoading) return;
 
       var self = this;
       self.isLoading = true;
 
-      var request = new XMLHttpRequest();
-      request.open(
-        "GET",
-        self.base + "articles/" + article_id + "?type=parsed",
-        true
-      );
-      request.setRequestHeader("authorization", "Bearer " + self.jwt);
-
-      request.onload = function() {
-        if (request.status >= 200 && request.status < 400) {
-          // Success!
-          var resp = JSON.parse(request.response);
-
-          self.isLoading = false;
-          self.article = {
-            title: resp.title,
-            url: resp.url,
-            image: resp.image,
-            content: resp.content,
-            date: resp.publicationDate
-          };
-        } else {
-          // We reached our target server, but it returned an error
-        }
+      self.article = {
+        title: article.title,
+        url: article.url,
+        content: article.content,
+        date: article.date
       };
-
-      request.onerror = function() {
-        // There was a connection error of some sort
-      };
-
-      request.send();
+      self.isLoading = false;
     },
     previousFeed: function previousFeed() {
       this.currentFeed = this.currentFeed - 1;
@@ -229,30 +204,39 @@ var Login = Vue.component("login", {
   template: "#login-template",
   data: function data() {
     return {
-      base: "https://winds-prod.getstream.io/",
-      email: "",
-      pass: ""
+      base: "https://www.inoreader.com/oauth2/",
+      corsBase: "https://cors-anywhere.herokuapp.com/https://www.inoreader.com/oauth2/"
     };
   },
+  mounted () {
+    if (window.location.search) {
+      var params = new URLSearchParams(window.location.search);
+      var code = params.get('code');
+      if (code) {
+        this.login(code);
+      }
+    }
+  },
   methods: {
-    login: function login() {
+    authorize: function authorize() {
+      window.location.href = this.base + "auth?client_id=999999573&redirect_uri=" + encodeURIComponent(window.location.origin) + "&response_type=code&state=" + new Date().getTime();
+    },
+    login: function login(code) {
       var self = this;
 
       var request = new XMLHttpRequest();
-      request.open("POST", self.base + "auth/login", true);
+      request.open("POST", self.corsBase + "token", true);
       request.setRequestHeader(
         "Content-Type",
-        "application/json;charset=UTF-8"
+        "application/x-www-form-urlencoded"
       );
 
       request.onload = function() {
         if (request.status >= 200 && request.status < 400) {
           // Success!
           var resp = JSON.parse(request.response);
-          self.email = "";
-          self.pass = "";
-          Cookies.set("jwt", resp.jwt, { expires: 99999 });
-          Cookies.set("id", resp._id, { expires: 99999 });
+          Cookies.set("jwt", resp.access_token, { expires: (resp.expires_in / 60 / 60 / 24) });
+          Cookies.set("refresh", resp.refresh_token, { expires: 99999 });
           self.$eventHub.$emit("auth");
         } else {
           // We reached our target server, but it returned an error
@@ -264,7 +248,7 @@ var Login = Vue.component("login", {
       };
 
       request.send(
-        '{"email":"' + self.email + '","password":"' + self.pass + '"}'
+        "code=" + code + "&redirect_uri=" + window.location.origin + "&client_id=999999573&client_secret=uJxB8QkYD4i9yKG0R1XSSJjdM06EMPHb&scope=&grant_type=authorization_code"
       );
     }
   }
@@ -290,7 +274,43 @@ var App = Vue.component("app", {
   methods: {
     checkAuth: function checkAuth() {
       this.jwt = Cookies.get("jwt");
+      if (!this.jwt) {
+        var refresh = Cookies.get("refresh");
+        if (refresh) {
+          this.refreshToken(refresh)
+        }
+      }
       this.auth = !(this.jwt == null);
+    },
+    refreshToken: function refreshToken(refresh) {
+      var self = this;
+
+      var request = new XMLHttpRequest();
+      request.open("POST", "https://www.inoreader.com/oauth2/token", true);
+      request.setRequestHeader(
+        "Content-Type",
+        "application/x-www-form-urlencoded"
+      );
+
+      request.onload = function() {
+        if (request.status >= 200 && request.status < 400) {
+          // Success!
+          var resp = JSON.parse(request.response);
+          Cookies.set("jwt", resp.access_token, { expires: (expires_in / 60 / 60 / 24) });
+          Cookies.set("refresh", resp.refresh_token, { expires: 99999 });
+          self.$eventHub.$emit("auth");
+        } else {
+          // We reached our target server, but it returned an error
+        }
+      };
+
+      request.onerror = function() {
+        // There was a connection error of some sort
+      };
+
+      request.send(
+        "client_id=999999573&client_secret=uJxB8QkYD4i9yKG0R1XSSJjdM06EMPHb&grant_type=refresh_token&refresh_token=" + refresh
+      );
     }
   },
   components: {
