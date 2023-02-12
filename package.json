@@ -4,6 +4,6 @@
   "main": "index.js",
   "license": "MIT",
   "scripts": {
-    "start": "python -m SimpleHTTPServer"
+    "start": "python3 -m http.server"
   }
 }

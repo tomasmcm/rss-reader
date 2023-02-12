@@ -43,7 +43,7 @@ var Container = Vue.component("container", {
         },
         {
           name: "Engadget",
-          url: "https://morss.it/:proxy:format=json:cors/https://feeds.proxeuse.com/?action=display&bridge=Engadget&format=Atom",
+          url: "https://morss.it/:proxy:format=json:cors/https://www.engadget.com/rss-full.xml",
           index: 1
         },
         {
