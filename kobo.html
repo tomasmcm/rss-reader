@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>WINDS.INK</title>
+  <link rel="stylesheet" type="text/css" href="./static/kobo.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
+  <script src="./static/vue-2.5.17.min.js"></script>
+  <script src="./static/url-search-params-1.0.2.js"></script>
+  <script src="./static/js.cookie-2.2.0.min.js"></script>
+  <script src="./src/kobo.js?2"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-47256452-6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'UA-47256452-6');
+  </script>
+</head>
+<body>
+  <div id="app">
+  </div>
+
+  <script type="text/x-template" id="header-menu-template">
+    <div class="feeds">
+      <div class="backdrop" @click="$eventHub.$emit('hide-menu')"></div>
+      <div class="header-bar">
+        <p class="header-title">FEEDS</p>
+      </div>
+      <br>
+      <div v-for="feed in feeds" class="feed" v-bind:class="{ 'is-active': (feed.index == currentFeed) }" :key=" 'loadFeed' + feed.index " @click="$eventHub.$emit('load-feed', feed.index)">
+        {{ feed.name }}
+      </div>
+
+      <br>
+      <a class="c-button u-inline" href="./">ORIGINAL</a>
+    </div>
+  </script>
+  <script type="text/x-template" id="feed-item-template">
+    <div class="feed-item" @click="$eventHub.$emit('get-article', article)">
+      <div class="feed-item__date">
+        {{ timeSince(article.date) || article.time }}
+      </div>
+      <div class="feed-item__title">
+        {{ article.title }}
+      </div>
+    </div>
+  </script>
+  <script type="text/x-template" id="container-template">
+    <div id="feeds">
+      <HeaderMenu :feeds="feeds" :currentFeed="currentFeed" v-if="showMenu" />
+      <div class="feed-articles">
+        <div class="feed-title" @click="showMenu = !showMenu">
+          {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
+        </div>
+        <div class="feed-item__container">
+          <FeedItem v-for="article in articles" :article="article" :key="article.id" />
+        </div>
+      </div>
+      <div class="article-container" v-if="article">
+        <div class="article-content" ref="articleContent" @click="doNothing">
+          <p class="article-content__date">
+            {{ article.time }}
+          </p>
+          <h1 class="article-content__title">
+            Title: {{ article.title }}
+          </h1>
+          <div class="article-content__toolbar">
+            <p class="article-content__author">
+              {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
+            </p>
+            <a class="article-content__source" :href="article.url">View Source</a>
+          </div>
+          <br>
+          <img :src="article.image" alt="">
+          <br>
+          <div class="article-content__html" v-html="article.content"></div>
+        </div>
+        <div class="feed-bar">
+          <div class="feed-bar__item feed-bar__up" @click="scrollUp"></div>
+          <div class="feed-bar__item feed-bar__down" @click="scrollDown"></div>
+          <div class="feed-bar__item feed-bar__close" @click="closeArticle"></div>
+        </div>
+      </div>
+      <div class="feed-bar">
+        <div class="feed-bar__item feed-bar__up" @click="previousFeed"></div>
+        <div class="feed-bar__item feed-bar__down" @click="nextFeed"></div>
+      </div>
+    </div>
+  </script>
+</body>
+</html>
