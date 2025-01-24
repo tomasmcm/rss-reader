@@ -51,7 +51,7 @@
   <script type="text/x-template" id="container-template">
     <div id="feeds">
       <HeaderMenu :feeds="feeds" :currentFeed="currentFeed" v-if="showMenu" />
-      <div class="feed-articles">
+      <div class="feed-articles" v-if="!article">
         <div class="feed-title" @click="showMenu = !showMenu">
           {{ (feeds[currentFeed]) ? feeds[currentFeed].name : "" }}
         </div>

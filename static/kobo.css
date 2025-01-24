@@ -340,30 +340,30 @@ body {
   padding: 24px 0px;
 }
 .article-container {
-  position: absolute;
+  /* position: absolute;
   left: 0px;
   right: 0px;
   top: 0px;
-  bottom: 0px;
+  bottom: 0px; */
   background: white;
 }
 .article-container .feed-bar {
   z-index: 1;
 }
 .article-content {
-  position: absolute;
+  /* position: absolute;
   left: 0px;
   right: 0px;
   top: 0px;
-  bottom: 0px;
+  bottom: 0px; */
   background: white;
   font-size: 1.5em;
   line-height: 1.6em;
   padding: 50px;
-  padding-bottom: 110px;
+  padding-bottom: 0px;
   z-index: 1;
   height: 710px;
-  height: calc(100vh - 71px);
+  /* height: calc(100vh - 71px); */
   overflow: scroll;
 }
 .article-content__title {
