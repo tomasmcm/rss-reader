@@ -230,8 +230,8 @@ body {
   color: #111;
   text-decoration: none;
   cursor: pointer;
-  line-height: 1.2em;
-  font-size: 1.2em;
+  line-height: 1em;
+  font-size: 1.4em;
   pointer-events: none;
   padding-right: 20px;
   font-weight: 500;
@@ -357,8 +357,8 @@ body {
   top: 0px;
   bottom: 0px; */
   background: white;
-  font-size: 1.5em;
-  line-height: 1.6em;
+  font-size: 1.6em;
+  line-height: 1.4em;
   padding: 50px;
   padding-bottom: 0px;
   z-index: 1;
