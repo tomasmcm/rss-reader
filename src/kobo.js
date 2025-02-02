@@ -69,7 +69,7 @@ var Container = Vue.component("container", {
         },
         {
           name: "The Verge",
-          url: "https://morss.it/:proxy:format=json:cors/www.theverge.com/rss/full.xml",
+          url: "https://morss.it/:proxy:format=json:cors/www.theverge.com/rss/index.xml",
           index: 6
         }
       ],
