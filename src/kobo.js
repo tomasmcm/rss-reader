@@ -117,18 +117,17 @@ var Container = Vue.component("container", {
 
           self.articles = [];
           for (var index = 0; index < resp.items.length; index++) {
+            var content = ((resp.items[index].desc || '') + (resp.items[index].content || ''))
+              .replace(/(&[^;]+;)+/g, "’")
+              .replace('align=left', '');
             self.articles.push({
-              title: resp.items[index].title,
+              title: resp.items[index].title.replace(/(&[^;]+;)+/g, "’"),
               date: Math.round(
                 new Date(resp.items[index].time).getTime() / 1000
               ),
               time: resp.items[index].time.replace('+0000', '').replace('T', ' '),
               url: resp.items[index].url,
-              content: ((resp.items[index].desc || '') + (resp.items[index].content || '')),
-                // .replace('<figure>', '<div class="figure">')
-                // .replace('</figure>', '</div>')
-                // .replace('<figcaption>', '<div class="figcaption">')
-                // .replace('</figcaption>', '</div>'),
+              content: content,
             });
           }
           window.location.hash = self.currentFeed;
