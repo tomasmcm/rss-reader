@@ -39,37 +39,37 @@ var Container = Vue.component("container", {
       feeds: [
         {
           name: "Adafruit",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:proxy:format=json:cors/www.adafruit.com/blog/feed/",
+          url: "https://morss.it/:proxy:format=json:cors/www.adafruit.com/blog/feed/",
           index: 0
         },
         {
           name: "Engadget",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:proxy:format=json:cors/https://www.engadget.com/rss-full.xml",
+          url: "https://morss.it/:proxy:format=json:cors/https://www.engadget.com/rss-full.xml",
           index: 1
         },
         {
           name: "Hackaday",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:proxy:format=json:cors/hackaday.com/feed/",
+          url: "https://morss.it/:proxy:format=json:cors/hackaday.com/feed/",
           index: 2
         },
         {
           name: "Hacker News",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:proxy:format=json:cors/news.ycombinator.com/rss",
+          url: "https://morss.it/:proxy:format=json:cors/news.ycombinator.com/rss",
           index: 3
         },
         {
           name: "GSM Arena",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:format=json:cors/www.gsmarena.com/rss-news-reviews.php3",
+          url: "https://morss.it/:format=json:cors/www.gsmarena.com/rss-news-reviews.php3",
           index: 4
         },
         {
           name: "Gizmodo",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:format=json:cors/https://gizmodo.com/rss",
+          url: "https://morss.it/:format=json:cors/https://gizmodo.com/rss",
           index: 5
         },
         {
           name: "The Verge",
-          url: "https://morss-tomasmcm4882-5t9qnf4n.leapcell.dev/:proxy:format=json:cors/www.theverge.com/rss/index.xml",
+          url: "https://morss.it/:proxy:format=json:cors/www.theverge.com/rss/index.xml",
           index: 6
         }
       ],
